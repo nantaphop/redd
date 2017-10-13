@@ -16,8 +16,14 @@ export default {
       use: {
         loader: 'babel-loader',
         options: {
-          cacheDirectory: true
-        }
+          cacheDirectory: true,
+          plugins: [
+            'transform-runtime',
+            'add-module-exports',
+            'transform-decorators-legacy',
+          ],
+          presets: ['react', 'stage-1'],
+        },
       }
     }]
   },

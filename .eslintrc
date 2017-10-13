@@ -13,7 +13,7 @@
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
-    "comma-dangle": "off",
+    "comma-dangle": "error",
     "flowtype-errors/show-errors": "error",
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
@@ -30,7 +30,10 @@
     }],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "semi": "off",
+    "indent": ["warn", 4],
+    "eol-last": "off"
   },
   "plugins": [
     "flowtype",
