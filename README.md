@@ -119,3 +119,6 @@ To run End-to-End Test
 $ npm run build
 $ npm run test-e2e
 ```
+
+## Acknowledgement
+- https://github.com/chentsulin/electron-react-boilerplate
