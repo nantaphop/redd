@@ -26,7 +26,7 @@ const Title = styled(Typography) `
 `
 
 export default enhance((props) => (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
         <Toolbar>
             <Title type="title" color="inherit" >
                 Redd

@@ -4,6 +4,7 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider';
 import InboxIcon from 'material-ui-icons/Inbox';
 import DraftsIcon from 'material-ui-icons/Drafts';
+import { withTheme } from 'material-ui/styles';
 import Header from './Header'
 import { getAuthUrl, fromAuthCode } from '../services/RedditService'
 import electron from 'electron'
@@ -20,7 +21,12 @@ const enhance = compose(
     inject('subreddit'),
     withHandlers({
         handleViewSubreddit: props => subredditName => () => props.subreddit.view(subredditName),
+        isActive: props => subredditName => {
+            console.log('props.subreddit.subreddit === subredditName', props.subreddit.subreddit === subredditName)
+            return props.subreddit.subreddit === subredditName
+        },
     }),
+    withTheme(),
     observer,
 )
 
@@ -28,13 +34,24 @@ const StyledList = styled(List) `
     overflow-y: auto;
     height: calc(100vh - 64px);
 `
-const Container = styled.div`
+const SubredditName = styled(ListItemText) `
     
 `
 
-type Props = {
-    sss: Subreddit
-}
+
+const StyledListItem = styled(ListItem) `
+    ${props => props.active ? `
+        background-color: ${props.theme.palette.action.active} !important;
+        h3 {
+            color: ${props.theme.palette.getContrastText(props.theme.palette.action.active)} !important;
+            font-weight: bold;            
+        }
+    ` : ''}
+    
+`
+const Container = styled.div`
+    
+`
 
 export default enhance((props: Props) => {
 
@@ -46,9 +63,14 @@ export default enhance((props: Props) => {
                 {
                     props.view.subscriptions
                         ? props.view.subscriptions.map(subreddit => (
-                            <ListItem button>
-                                <ListItemText primary={subreddit.display_name} onClick={props.handleViewSubreddit(subreddit.display_name)} />
-                            </ListItem>
+                            <StyledListItem
+                                button
+                                onClick={props.handleViewSubreddit(subreddit.display_name)}
+                                active={props.isActive(subreddit.display_name)}
+                                theme={props.theme}
+                            >
+                                <SubredditName primary={subreddit.display_name} />
+                            </StyledListItem>
                         ))
                         : null
                 }
