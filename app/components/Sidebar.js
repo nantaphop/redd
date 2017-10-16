@@ -17,13 +17,13 @@ const authUrl = getAuthUrl('sdfsdfwef8373')
 
 
 const enhance = compose(
-    inject('view'),
-    inject('subreddit'),
+    inject('viewStore'),
+    inject('subredditStore'),
     withHandlers({
-        handleViewSubreddit: props => subredditName => () => props.subreddit.view(subredditName),
+        handleViewSubreddit: props => subredditName => () => props.subredditStore.view(subredditName),
         isActive: props => subredditName => {
-            console.log('props.subreddit.subreddit === subredditName', props.subreddit.subreddit === subredditName)
-            return props.subreddit.subreddit === subredditName
+            console.log('props.subredditStore.subreddit === subredditName', props.subredditStore.subreddit === subredditName)
+            return props.subredditStore.subreddit === subredditName
         },
     }),
     withTheme(),
@@ -50,19 +50,19 @@ const StyledListItem = styled(ListItem) `
     
 `
 const Container = styled.div`
-    
+    padding-top: 72px;
 `
 
 export default enhance((props: Props) => {
 
-    console.log(JSON.stringify(props.view.subscriptions && JSON.stringify(props.view.subscriptions[0], null, 2)))
+    console.log(JSON.stringify(props.viewStore.subscriptions && JSON.stringify(props.viewStore.subscriptions[0], null, 2)))
     return (
-        <div>
+        <Container>
             <Header />
             <StyledList>
                 {
-                    props.view.subscriptions
-                        ? props.view.subscriptions.map(subreddit => (
+                    props.viewStore.subscriptions
+                        ? props.viewStore.subscriptions.map(subreddit => (
                             <StyledListItem
                                 button
                                 onClick={props.handleViewSubreddit(subreddit.display_name)}
@@ -75,7 +75,7 @@ export default enhance((props: Props) => {
                         : null
                 }
             </StyledList>
-        </div>
+        </Container>
     )
 })
 

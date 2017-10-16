@@ -11,11 +11,11 @@ import { inject, observer } from 'mobx-react'
 import ViewStore from '../store/ViewStore'
 
 const enhance = compose(
-    inject('view'),
+    inject('viewStore'),
     withHandlers({
         handleLogin: props => () => {
             console.log(props)
-            props.view.performLogin()
+            props.viewStore.performLogin()
         },
     }),
     observer,
@@ -26,14 +26,14 @@ const Title = styled(Typography) `
 `
 
 export default enhance((props) => (
-    <AppBar position="static" color="primary">
+    <AppBar color="primary">
         <Toolbar>
             <Title type="title" color="inherit" >
                 Redd
             </Title>
             {
-                props.view.currentUser
-                    ? <div>{props.view.currentUser.name}</div>
+                props.viewStore.currentUser
+                    ? <div>{props.viewStore.currentUser.name}</div>
                     : <Button color="contrast" onClick={props.handleLogin}>Login</Button>
             }
         </Toolbar>

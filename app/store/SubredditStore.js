@@ -4,7 +4,7 @@ import RedditService from '../services/RedditService'
 
 
 class SubredditStore {
-    @observable posts = []
+    @observable submissions = []
     @observable loading: boolean = false
     @observable count = 8
     @observable mode = 'getHot'
@@ -18,7 +18,7 @@ class SubredditStore {
 
     @action fetch = async () => {
         this.loading = true
-        this.posts = await RedditService()[this.mode](this.subreddit, {
+        this.submissions = await RedditService()[this.mode](this.subreddit, {
             limit: 10,
         })
         this.loading = false
@@ -26,9 +26,9 @@ class SubredditStore {
 
     @action fetchMore = async () => {
         this.loading = true
-        this.posts = this.posts.concat(await RedditService()[this.mode](this.subreddit, {
-            after: this.posts[this.posts.length - 1].name,
-            count: this.posts.length,
+        this.submissions = this.submissions.concat(await RedditService()[this.mode](this.subreddit, {
+            after: this.submissions[this.submissions.length - 1].name,
+            count: this.submissions.length,
             limit: 10,
         }))
         this.loading = false
@@ -38,5 +38,5 @@ class SubredditStore {
 
 const store = new SubredditStore()
 autorun(() => console.log(store))
-// setInterval(() => store.posts.push({title: 'fs'}), 1000)
+// setInterval(() => store.submissions.push({title: 'fs'}), 1000)
 export default store

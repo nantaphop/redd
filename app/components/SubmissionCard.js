@@ -7,32 +7,32 @@ import PersonIcon from 'material-ui-icons/Person'
 import LabelIcon from 'material-ui-icons/Label'
 import ArrowUpIcon from 'material-ui-icons/ArrowUpward'
 import ArrowDownIcon from 'material-ui-icons/ArrowDownward'
+import ChatIcon from 'material-ui-icons/Forum'
 import styled, { css } from 'styled-components'
-import { compose, lifecycle, setDisplayName } from 'recompose'
+import { compose, lifecycle, setDisplayName, withHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import LineEllipsis from 'react-lines-ellipsis'
 
-
-type PostCardProps = {
-    post: object
+type SubmissionCardProps = {
+    submission: object
 }
 
 const enhance = compose(
-    inject('subreddit'),
+    inject('subredditStore'),
+    inject('submissionStore'),
     lifecycle({
-        componentDidMount() {
-        }
 
     }),
-    setDisplayName('PostList'),
+    withHandlers({
+        viewSubmission: props => (submission) => () => console.log(props.submissionStore) || props.submissionStore.view(submission),
+    }),
+    setDisplayName('SubmissionList'),
     observer,
 )
 
 const TopicCard = styled(Card) `
     margin-bottom: 8px;
-    margin-left: 16px;
-    margin-right: 16px;
     width: 100%;
 `
 
@@ -83,61 +83,73 @@ const StatContainer = styled.div`
     flex: 1;
 `
 const Image = styled(CardMedia) `
-    height: 200px;
+    height: 300px;
 `
 
-export default enhance((props: PostCardProps) => {
-    let { post } = props
-    console.log(post.thumbnail, post)
+export default enhance((props: SubmissionCardProps) => {
+    let { submission } = props
+    console.log(submission.thumbnail, submission)
     let preview
-    if (post.preview && post.preview.images) {
-        let resolutions: object[] = post.preview.images[0].resolutions
+    if (submission.preview && submission.preview.images) {
+        let resolutions: object[] = submission.preview.images[0].resolutions
         let heightMoreThan200 = resolutions.filter(r => r.height > 200)
         preview = heightMoreThan200[0] && heightMoreThan200[0].url
     }
     return (
-        <TopicCard key={post.name} raised active={post.active} elevation={1}>
+        <TopicCard
+            key={submission.name}
+            raised
+            active={submission.active}
+            elevation={1}
+        >
             {preview && <Image
-
+                onClick={props.viewSubmission(submission)}
                 image={preview}
-                title="post.title"
+                title="submission.title"
             />
             }
             <Contents>
-                <Typography type="body1">{post.title}</Typography>
+                <Typography type="body1"
+                    component="a"
+                    onClick={props.viewSubmission(submission)}
+                >
+                    {submission.title}
+                </Typography>
                 <MetaRow type="caption">
-                    <_DateIcon /> {moment(post.created_utc * 1000).fromNow()}
-                    <_PersonIcon /> {post.author.name}
-                    <_LabelIcon /> {post.subreddit.display_name}
+                    <_DateIcon /> {moment(submission.created_utc * 1000).fromNow()}
+                    <_PersonIcon /> {submission.author.name}
+                    <_LabelIcon /> {submission.subreddit.display_name}
                 </MetaRow>
                 {
-                    post.selftext && <SelfText>
+                    submission.selftext && <SelfText component="a" onClick={props.viewSubmission(submission)}>
                         <LineEllipsis
                             maxLine={3}
                             ellipsis='...'
                             trimRight
                             basedOn='letters'
-                            text={post.selftext} />
+                            text={submission.selftext} />
                     </SelfText>
                 }
                 <CardActions disableActionSpacing>
-                    <StatContainer>
-                        <Typography type="caption">{post.score || '0'} points</Typography>
-                        <Typography type="caption">{post.num_comment || '0'} comments</Typography>
-                    </StatContainer>
+                    <Typography type="body1">{submission.score || '0'}</Typography>
                     <IconButton>
                         <ArrowUpIcon />
                     </IconButton>
                     <IconButton>
                         <ArrowDownIcon />
                     </IconButton>
+                    <Typography type="body1">{submission.num_comment || '0'}</Typography>
+                    <IconButton>
+                        <ChatIcon />
+                    </IconButton>
+
                 </CardActions>
             </Contents>
         </TopicCard >
     )
 })
 
-// Sample Post Item
+// Sample Submission Item
 /**
  * {
         "kind" : "t3",
@@ -149,7 +161,7 @@ export default enhance((props: PostCardProps) => {
           "edited" : false,
           "is_self" : true,
           "visited" : false,
-          "can_mod_post" : false,
+          "can_mod_submission" : false,
           "banned_by" : null,
           "created" : 1507996446,
           "quarantine" : false,
@@ -160,7 +172,7 @@ export default enhance((props: PostCardProps) => {
           "contest_mode" : false,
           "url" : "https://www.reddit.com/r/geek/comments/76av4r/anyone_else_disconcerted_that_in_2049_theyre/",
           "link_flair_css_class" : null,
-          "is_crosspostable" : true,
+          "is_crosssubmissionable" : true,
           "permalink" : "/r/geek/comments/76av4r/anyone_else_disconcerted_that_in_2049_theyre/",
           "mod_reports" : [
 
@@ -205,7 +217,7 @@ export default enhance((props: PostCardProps) => {
           "user_reports" : [
 
           ],
-          "num_crossposts" : 0,
+          "num_crosssubmissions" : 0,
           "hidden" : false,
           "removal_reason" : null,
           "created_utc" : 1507967646,

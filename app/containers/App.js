@@ -7,8 +7,9 @@ import RedditService from '../services/RedditService'
 import { compose } from 'recompose'
 
 const stores = {
-  subreddit: Store.SubredditStore,
-  view: Store.ViewStore,
+  subredditStore: Store.SubredditStore,
+  viewStore: Store.ViewStore,
+  submissionStore: Store.SubmissionStore,
 }
 
 const enhance = compose(

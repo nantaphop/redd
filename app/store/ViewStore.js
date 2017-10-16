@@ -3,6 +3,8 @@ import electron from 'electron'
 import RedditService, { getAuthUrl, fromAuthCode } from '../services/RedditService'
 import StorageService from '../services/StorageService'
 import { SubredditStore } from './'
+const {TouchBarLabel, TouchBarButton, TouchBarSpacer, TouchBarSegmentedControl} = electron.remote.TouchBar
+
 
 const authUrl = getAuthUrl('sdfsdfwef8373')
 
@@ -62,6 +64,18 @@ autorun(() => {
 })
 autorun(() => {
     console.log('Update Subscribtions', store.subscriptions)
+    const subBtns = store.subscriptions.map(sub => {
+        return new TouchBarButton({
+            label: sub.display_name,
+        })
+    })
+    let segment = new TouchBarSegmentedControl({
+        segments: subBtns,
+        mode: 'single',
+
+    })
+    const touchbar = new electron.remote.TouchBar([segment])
+    electron.remote.getCurrentWindow().setTouchBar(touchbar)
 })
 
 export default store
