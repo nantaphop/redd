@@ -6,12 +6,16 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import styled from 'styled-components'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, withStateHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
-import ViewStore from '../store/ViewStore'
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import SortRedditButton from './SortRedditButton'
+
 
 const enhance = compose(
     inject('viewStore'),
+    inject('subredditStore'),
     withHandlers({
         handleLogin: props => () => {
             console.log(props)
@@ -22,20 +26,33 @@ const enhance = compose(
 )
 
 const Title = styled(Typography) `
-    flex: 1;
+    width: 240px;
 `
-
+const SubredditTitle = styled(Typography) `
+    margin-right: 16px;
+`
+const Right = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+`
 export default enhance((props) => (
     <AppBar color="primary">
         <Toolbar>
             <Title type="title" color="inherit" >
                 Redd
             </Title>
-            {
-                props.viewStore.currentUser
-                    ? <div>{props.viewStore.currentUser.name}</div>
-                    : <Button color="contrast" onClick={props.handleLogin}>Login</Button>
-            }
+            <SubredditTitle type="title" color="inherit" >
+                /r/{props.subredditStore.subreddit}
+            </SubredditTitle>
+            <SortRedditButton />
+            <Right>
+                {
+                    props.viewStore.currentUser
+                        ? <div>{props.viewStore.currentUser.name}</div>
+                        : <Button color="contrast" onClick={props.handleLogin}>Login</Button>
+                }
+            </Right>
         </Toolbar>
     </AppBar>
 ))

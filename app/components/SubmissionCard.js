@@ -138,7 +138,7 @@ export default enhance((props: SubmissionCardProps) => {
                     <IconButton>
                         <ArrowDownIcon />
                     </IconButton>
-                    <Typography type="body1">{submission.num_comment || '0'}</Typography>
+                    <Typography type="body1">{submission.num_comments || '0'}</Typography>
                     <IconButton>
                         <ChatIcon />
                     </IconButton>

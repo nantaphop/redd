@@ -4,8 +4,10 @@ import styled from 'styled-components'
 import { compose, withHandlers, setDisplayName } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import Typography from 'material-ui/Typography'
+import { CircularProgress } from 'material-ui/Progress';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import SubmissionCard from './SubmissionCard'
+import ReplyCard from './ReplyCard'
 
 const enhance = compose(
     inject('submissionStore'),
@@ -23,6 +25,12 @@ const Container = styled.div`
     height: 100vh;
 
 `
+const LoadingContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
+`
 
 export default enhance((props) => {
     if (!props.submissionStore.submission) {
@@ -32,13 +40,12 @@ export default enhance((props) => {
         <Container>
             <SubmissionCard submission={props.submissionStore.submission} />
             {
-                
+                props.submissionStore.loading
+                    ? <LoadingContainer>
+                        <CircularProgress />
+                    </LoadingContainer>
+                    : props.submissionStore.replies.map(reply => <ReplyCard reply={reply} />)
             }
-            <Typography>
-            <pre>
-                {JSON.stringify(props.submissionStore.replies, null, 2)}
-            </pre>
-            </Typography>
         </Container>
     )
 })

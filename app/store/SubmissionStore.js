@@ -6,12 +6,13 @@ class SubmissionStore {
     @observable submission
     @observable replies: object[] = []
     @observable loading: boolean = false
+    @observable collapseReplies: object = observable.map({})
     submissionProxy
 
     @action view = async (submission: object) => {
         this.submission = submission
         this.replies = []
-        this.submissionProxy = await RedditService().getSubmission(this.submission.id)        
+        this.submissionProxy = await RedditService().getSubmission(this.submission.id)
         this.fetchComment()
     }
 
@@ -20,6 +21,16 @@ class SubmissionStore {
         this.replies = await this.submissionProxy.comments
         this.loading = false
     }
+
+    @action handleToggleReply = (replyName) => () => {
+        if (this.collapseReplies.get(replyName)) {
+            this.collapseReplies.delete(replyName)
+        } else {
+            this.collapseReplies.set(replyName, true)
+        }
+    }
+
+    @action isExpanding = replyName => !this.collapseReplies.has(replyName)
 
 }
 
