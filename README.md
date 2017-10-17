@@ -1,6 +1,9 @@
-# Redd
+# Redd (Work in Pregress)
 
 ### Open Source Cross Platform Desktop Client for Reddit Edit
+
+## Screenshot
+[![Redd](/internals/img/ss1.png)]()
 
 ## Run
 
