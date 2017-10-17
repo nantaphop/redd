@@ -8,7 +8,7 @@ class SubredditStore {
     @observable loading: boolean = false
     @observable count = 8
     @observable mode = 'Hot'
-    @observable subreddit = 'android'
+    @observable subreddit = ''
     @observable test = 1
 
     @computed get fetchFuction() {

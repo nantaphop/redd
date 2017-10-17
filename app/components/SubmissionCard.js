@@ -101,6 +101,7 @@ export default enhance((props: SubmissionCardProps) => {
             raised
             active={submission.active}
             elevation={1}
+            onClick={props.viewSubmission(submission)}
         >
             {preview && <Image
                 onClick={props.viewSubmission(submission)}

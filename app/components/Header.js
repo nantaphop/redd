@@ -43,7 +43,7 @@ export default enhance((props) => (
                 Redd
             </Title>
             <SubredditTitle type="title" color="inherit" >
-                /r/{props.subredditStore.subreddit}
+                {props.subredditStore.subreddit ? `/r/${props.subredditStore.subreddit}` : 'Front Page'}
             </SubredditTitle>
             <SortRedditButton />
             <Right>

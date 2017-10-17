@@ -60,6 +60,22 @@ export default enhance((props: Props) => {
         <Container>
             <Header />
             <StyledList>
+                <StyledListItem
+                    button
+                    onClick={props.handleViewSubreddit('')}
+                    active={props.isActive('')}
+                    theme={props.theme}
+                >
+                    <SubredditName primary="Front Page" />
+                </StyledListItem>
+                <StyledListItem
+                    button
+                    onClick={props.handleViewSubreddit('all')}
+                    active={props.isActive('all')}
+                    theme={props.theme}
+                >
+                    <SubredditName primary="All" />
+                </StyledListItem>
                 {
                     props.viewStore.subscriptions
                         ? props.viewStore.subscriptions.map(subreddit => (

@@ -15,12 +15,6 @@ const enhance = compose(
     inject('viewStore'),
     inject('subredditStore'),
     inject('submissionStore'),
-    lifecycle({
-        componentDidMount() {
-            // setTimeout(() => SubredditStore.fetch(), 2000)
-        }
-
-    }),
     setDisplayName('SubmissionList'),
     observer,
 )

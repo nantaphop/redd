@@ -39,6 +39,7 @@ const ReplyCard = styled(Card) `
 `
 
 const Contents = styled(CardContent) `
+    padding: 16px 1px 16px 16px !important;
     :last-child{
         padding-bottom: 0px !important;
     }
@@ -66,9 +67,11 @@ const MetaRow = styled(Typography) `
     display: flex !important;
     align-items: center !important;
     font-size: 10px !important;
+    margin-bottom: 8px;
 `
 const Body = styled(Typography) `
     margin-bottom: 8px;
+    padding-right: 16px;
 `
 
 const SelfText = styled(Typography).attrs({
@@ -89,7 +92,7 @@ const StatContainer = styled.div`
 const Image = styled(CardMedia) `
     height: 300px;
 `
-const RepliesContainer = styled(Collapse)`
+const RepliesContainer = styled(Collapse) `
     padding: 2px;
 `
 
@@ -107,7 +110,11 @@ const renderReply = (props, reply) => (
                 {
                     reply.replies.length &&
                     <IconButton onClick={props.submissionStore.handleToggleReply(reply.name)}>
-                        <ExpandLess />
+                        {
+                            !props.submissionStore.collapseReplies.has(reply.name)
+                                ? <ExpandLess />
+                                : <ExpandMore />
+                        }
                     </IconButton>
                 }
             </MetaRow>

@@ -1,6 +1,7 @@
 import Snoowrap from 'snoowrap'
 import config from '../config'
 import StorageService from './StorageService'
+import SubredditStore from '../store/SubredditStore'
 
 const DEFAULT_SCOPE = [
     'identity',
@@ -29,14 +30,14 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/
 let r: Snoowrap
 (async () => {
     let refreshToken = await StorageService.refreshToken()
-    console.log("StorageService.refreshToken()", refreshToken)
     if (refreshToken) {
-        r = new Snoowrap({
+        r = await new Snoowrap({
             clientId: config.clientId,
             refreshToken,
             userAgent: USER_AGENT,
             accessToken: 'expired',
         })
+        SubredditStore.fetch()
     }
 })()
 
