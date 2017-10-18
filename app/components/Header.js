@@ -29,7 +29,7 @@ const Title = styled(Typography) `
     width: 240px;
 `
 const SubredditTitle = styled(Typography) `
-    margin-right: 16px;
+    margin-right: 16px !important;
 `
 const Right = styled.div`
     flex: 1;
