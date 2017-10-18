@@ -6,12 +6,13 @@ import RedditService from '../services/RedditService'
 class SubredditStore {
     @observable submissions = []
     @observable loading: boolean = false
+    @observable loadingMore: boolean = false
     @observable count = 8
     @observable mode = 'Hot'
     @observable subreddit = ''
     @observable test = 1
 
-    @computed get fetchFuction() {
+    @computed get fetchFunction() {
         const modeMapping = {
             Hot: 'getHot',
             Top: 'getTop',
@@ -27,7 +28,7 @@ class SubredditStore {
 
     @action fetch = async () => {
         this.loading = true
-        this.submissions = await RedditService()[this.fetchFuction](this.subreddit, {
+        this.submissions = await RedditService()[this.fetchFunction](this.subreddit, {
             limit: 10,
         })
         this.loading = false
@@ -39,13 +40,15 @@ class SubredditStore {
     }
 
     @action fetchMore = async () => {
-        this.loading = true
-        this.submissions = this.submissions.concat(await RedditService()[this.fetchFuction](this.subreddit, {
-            after: this.submissions[this.submissions.length - 1].name,
-            count: this.submissions.length,
-            limit: 10,
-        }))
-        this.loading = false
+        if (this.submissions.length > 0) {
+            this.loadingMore = true
+            this.submissions = this.submissions.concat(await RedditService()[this.fetchFunction](this.subreddit, {
+                after: this.submissions[this.submissions.length - 1].name,
+                count: this.submissions.length,
+                limit: 10,
+            }))
+            this.loadingMore = false
+        }
     }
 
 }

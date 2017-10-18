@@ -7,21 +7,27 @@ import Typography from 'material-ui/Typography'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import styled from 'styled-components'
-import { compose, lifecycle, setDisplayName, withHandlers } from 'recompose'
+import { compose, lifecycle, setDisplayName, withStateHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import SubmissionCard from './SubmissionCard'
+import Sensor from 'react-visibility-sensor'
 
 const enhance = compose(
     inject('viewStore'),
     inject('subredditStore'),
     inject('submissionStore'),
     setDisplayName('SubmissionList'),
+    withStateHandlers({
+
+    }, {
+        checkBottomReach: (state, props) => (isVisible) => console.log('visible', isVisible) || isVisible && props.subredditStore.fetchMore(),
+    }),
     observer,
 )
 
 const Container = styled.div`
     overflow-y: auto;
-    height: 100vh;
+    height: calc(100vh - 64px);
     padding: 80px 0px 16px 0px !important;
 `
 
@@ -31,8 +37,12 @@ const LoadingContainer = styled.div`
     justify-content: center;
     padding-top: 16px;
 `
+const LoadMore = styled.div`
+
+`
 
 export default enhance((props) => {
+    props.checkBottomReach(false)
     return (
         <Container container direction='row' justify='center'>
             {
@@ -46,6 +56,14 @@ export default enhance((props) => {
                         )
                     })
             }
+            {
+                props.subredditStore.loadingMore && !props.subredditStore.loading
+                ? <LoadingContainer>
+                    <CircularProgress />
+                </LoadingContainer>
+                : <Sensor onChange={props.checkBottomReach} scrollCheck />
+            }
+            <span>.</span>
         </Container>
     )
 }
