@@ -13,6 +13,7 @@ import { compose, lifecycle, setDisplayName, withHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import LineEllipsis from 'react-lines-ellipsis'
+import electron from 'electron'
 
 type SubmissionCardProps = {
     submission: object
@@ -25,7 +26,30 @@ const enhance = compose(
 
     }),
     withHandlers({
-        viewSubmission: props => (submission) => () => console.log(props.submissionStore) || props.submissionStore.view(submission),
+        viewSubmission: props => () => console.log(props.submissionStore) || props.submissionStore.view(props.submission),
+        viewUrl: props => url => {
+            let authWindow = new electron.remote.BrowserWindow({
+                // width: 800,
+                // height: 600,
+                show: false,
+                title: 'Redd',
+                'node-integration': false,
+                'web-security': false,
+                parent: electron.remote.getCurrentWindow(),
+            });
+            authWindow.loadURL(url);
+            authWindow.show();
+        },
+    }),
+    withHandlers({
+        handlePreviewClick: props => (e) => {
+            e.stopPropagation()
+            if (props.submission.url) {
+                props.viewUrl(props.submission.url)
+            } else {
+                props.viewSubmission()
+            }
+        },
     }),
     setDisplayName('SubmissionList'),
     observer,
@@ -101,10 +125,10 @@ export default enhance((props: SubmissionCardProps) => {
             raised
             active={submission.active}
             elevation={1}
-            onClick={props.viewSubmission(submission)}
+            onClick={props.viewSubmission}
         >
             {preview && <Image
-                onClick={props.viewSubmission(submission)}
+                onClick={props.handlePreviewClick}
                 image={preview}
                 title="submission.title"
             />
@@ -112,7 +136,7 @@ export default enhance((props: SubmissionCardProps) => {
             <Contents>
                 <Typography type="body1"
                     component="a"
-                    onClick={props.viewSubmission(submission)}
+                    onClick={props.viewSubmission}
                 >
                     {submission.title}
                 </Typography>
@@ -122,7 +146,7 @@ export default enhance((props: SubmissionCardProps) => {
                     <_LabelIcon /> {submission.subreddit.display_name}
                 </MetaRow>
                 {
-                    submission.selftext && <SelfText component="a" onClick={props.viewSubmission(submission)}>
+                    submission.selftext && <SelfText component="a" onClick={props.viewSubmission}>
                         <LineEllipsis
                             maxLine={3}
                             ellipsis='...'
