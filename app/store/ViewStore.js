@@ -34,7 +34,9 @@ class ViewStore {
             if (newUrl.startsWith('http://oauthcallback')) {
                 await fromAuthCode(newUrl.split('code=')[1])
                 this.currentUser = await RedditService().getMe()
-                this.subscriptions = await RedditService().getSubscriptions()
+                this.subscriptions = await RedditService().getSubscriptions({
+                    limit: 99999,
+                })
                 await StorageService.currentUser(toJS(this.currentUser))
                 await StorageService.subscriptions(toJS(this.subscriptions))
                 authWindow.close()

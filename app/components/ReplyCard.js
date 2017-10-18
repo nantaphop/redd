@@ -39,7 +39,7 @@ const ReplyCard = styled(Card) `
 `
 
 const Contents = styled(CardContent) `
-    padding: 16px 1px 16px 16px !important;
+    padding: 0px 1px 16px 16px !important;
     :last-child{
         padding-bottom: 0px !important;
     }
@@ -65,13 +65,14 @@ margin-left: 4px;
 
 const MetaRow = styled(Typography) `
     display: flex !important;
-    align-items: center !important;
     font-size: 10px !important;
-    margin-bottom: 8px;
+    align-items: center;
+    height: 48px;
 `
 const Body = styled(Typography) `
     margin-bottom: 8px;
     padding-right: 16px;
+    word-break: break-all;
 `
 
 const SelfText = styled(Typography).attrs({
