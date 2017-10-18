@@ -18,11 +18,10 @@ const enhance = compose(
 )
 
 const Container = styled.div`
-    min-height: 100vh;
     margin-left: 0px !important;
     padding: 80px 16px 16px 0px !important;
     overflow-y: auto;
-    height: 100vh;
+    height: calc(100vh - 64px);
 
 `
 const LoadingContainer = styled.div`

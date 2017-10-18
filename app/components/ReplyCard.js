@@ -73,12 +73,15 @@ const Body = styled(Typography) `
     margin-bottom: 8px;
     padding-right: 16px;
     word-break: break-all;
-    .md *{
+    *{
         color: rgba(0, 0, 0, 0.87);
         font-size: 14px;
         font-weight: 400;
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
         line-height: 20px;
+        p {
+            margin-top: 0px !important;
+        }
     }
 `
 
@@ -116,7 +119,7 @@ const renderReply = (props, reply) => (
                 <_PersonIcon /> {reply.author.name}
                 <_LabelIcon /> {reply.score}
                 {
-                    reply.replies.length &&
+                    reply.replies.length ?
                     <IconButton onClick={props.submissionStore.handleToggleReply(reply.name)}>
                         {
                             !props.submissionStore.collapseReplies.has(reply.name)
@@ -124,6 +127,7 @@ const renderReply = (props, reply) => (
                                 : <ExpandMore />
                         }
                     </IconButton>
+                    : null
                 }
             </MetaRow>
             {
