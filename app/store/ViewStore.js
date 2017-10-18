@@ -50,6 +50,12 @@ class ViewStore {
         });
     }
 
+    @action logout = async () => {
+        StorageService.clear()
+        this.currentUser = null
+        this.subscriptions = null
+    }
+
     @action reloadFromStorage = async () => {
         console.log('ViewStore start reloadFromStorage')
         this.currentUser = await StorageService.currentUser()

@@ -50,7 +50,8 @@ const StyledListItem = styled(ListItem) `
     
 `
 const Container = styled.div`
-    padding-top: 72px;
+    padding-top: 64px;
+    padding-bottom: 16px;
 `
 
 export default enhance((props: Props) => {

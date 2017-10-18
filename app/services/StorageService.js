@@ -31,4 +31,7 @@ export default {
     currentUser: rw('currentUser'),
     subscriptions: rw('subscriptions'),
     refreshToken: rw('refreshToken'),
+    clear: () => storage.clear({ dataPath: storage.DEFAULT_DATA_PATH }, (error) => {
+        if (error) throw error;
+    }),
 }

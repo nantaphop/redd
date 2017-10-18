@@ -11,6 +11,7 @@ import { inject, observer } from 'mobx-react'
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import SortRedditButton from './SortRedditButton'
+import UserMenuButton from './UserMenuButton'
 
 
 const enhance = compose(
@@ -49,7 +50,7 @@ export default enhance((props) => (
             <Right>
                 {
                     props.viewStore.currentUser
-                        ? <div>{props.viewStore.currentUser.name}</div>
+                        ? <UserMenuButton />
                         : <Button color="contrast" onClick={props.handleLogin}>Login</Button>
                 }
             </Right>
