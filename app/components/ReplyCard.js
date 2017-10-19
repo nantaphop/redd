@@ -16,6 +16,7 @@ import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import LineEllipsis from 'react-lines-ellipsis'
 import Collapse from 'material-ui/transitions/Collapse';
+import ContentBody from './ContentBody'
 
 
 type ReplyCardProps = {
@@ -69,22 +70,6 @@ const MetaRow = styled(Typography) `
     align-items: center;
     height: 48px;
 `
-const Body = styled(Typography) `
-    margin-bottom: 8px;
-    padding-right: 16px;
-    word-break: break-all;
-    *{
-        color: rgba(0, 0, 0, 0.87);
-        font-size: 14px;
-        font-weight: 400;
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-        line-height: 20px;
-        p {
-            margin-top: 0px !important;
-        }
-    }
-`
-
 const SelfText = styled(Typography).attrs({
     type: 'caption',
 }) `
@@ -131,7 +116,7 @@ const renderReply = (props, reply) => (
                 }
             </MetaRow>
             {
-                reply.body && <Body type='body1'><span dangerouslySetInnerHTML={{__html: reply.body_html}}></span></Body>
+                reply.body_html && <ContentBody html={reply.body_html} />
             }
             {/* <CardActions disableActionSpacing>
             <Typography type="body1">{submission.score || '0'}</Typography>

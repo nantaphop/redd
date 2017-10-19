@@ -37,7 +37,7 @@ export default enhance((props) => {
     }
     return (
         <Container>
-            <SubmissionCard submission={props.submissionStore.submission} />
+            <SubmissionCard submission={props.submissionStore.submission} fullContent/>
             {
                 props.submissionStore.loading
                     ? <LoadingContainer>

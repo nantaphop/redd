@@ -14,12 +14,12 @@ import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import LineEllipsis from 'react-lines-ellipsis'
 import electron from 'electron'
-import GifPlayer from './GifView'
 import { SubmissionPreview } from './'
-// import GifPlayer from 'react-gif-player'
+import ContentBody from './ContentBody'
 
 type SubmissionCardProps = {
-    submission: object
+    submission: object,
+    fullContent?: boolean
 }
 
 const enhance = compose(
@@ -91,6 +91,7 @@ const MetaRow = styled(Typography) `
     display: flex !important;
     align-items: center !important;
     margin-top: 8px !important;
+    margin-bottom: 8px !important;
     font-size: 10px !important;
 `
 
@@ -98,7 +99,6 @@ const SelfText = styled(Typography).attrs({
     type: 'caption',
 }) `
     word-break: break-word;
-    margin-top: 8px !important;
 `
 const ActionBar = styled.div`
     display: flex;
@@ -117,7 +117,7 @@ const GifPlayerContainer = styled.div`
 `
 
 export default enhance((props: SubmissionCardProps) => {
-    let { submission } = props
+    let { submission, fullContent } = props
     console.log(submission.thumbnail, submission)
     return (
         <TopicCard
@@ -129,7 +129,7 @@ export default enhance((props: SubmissionCardProps) => {
         >
             <SubmissionPreview submission={submission} />
             <Contents>
-                <Typography type="body1"
+                <Typography type={fullContent ? 'title' : 'body1'}
                     component="a"
                     onClick={props.viewSubmission}
                 >
@@ -141,7 +141,10 @@ export default enhance((props: SubmissionCardProps) => {
                     <_LabelIcon /> {submission.subreddit.display_name}
                 </MetaRow>
                 {
-                    submission.selftext && <SelfText component="a" onClick={props.viewSubmission}>
+                    submission.selftext && 
+                    fullContent 
+                    ? <ContentBody html={submission.selftext_html}/>
+                    : <SelfText component="a" onClick={props.viewSubmission}>
                         <LineEllipsis
                             maxLine={3}
                             ellipsis='...'
