@@ -5,6 +5,7 @@ import { Provider, observer } from 'mobx-react'
 import * as Store from '../store'
 import RedditService from '../services/RedditService'
 import { compose } from 'recompose'
+import HomePage from './HomePage'
 
 const stores = {
   subredditStore: Store.SubredditStore,
@@ -25,7 +26,7 @@ export default enhance((props) => {
     <Provider {...stores }>
       <AppContainer>
         {/* <Header /> */}
-        {props.children}
+        <HomePage />
       </AppContainer>
     </Provider>
   )
