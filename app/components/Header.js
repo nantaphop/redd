@@ -26,6 +26,11 @@ const enhance = compose(
     observer,
 )
 
+const StyleAppBar = styled(AppBar)`
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+`
+
 const Title = styled(Typography) `
     width: 240px;
 `
@@ -47,7 +52,7 @@ const Right = styled.div`
     justify-content: flex-end;
 `
 export default enhance((props) => (
-    <AppBar color="primary">
+    <StyleAppBar color="primary">
         <Toolbar>
             <Grid container spacing={16}>
                 <Grid item md={3}>
@@ -76,5 +81,5 @@ export default enhance((props) => (
                 </Grid>
             </Grid>
         </Toolbar>
-    </AppBar>
+    </StyleAppBar>
 ))

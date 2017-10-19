@@ -14,6 +14,9 @@ import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import LineEllipsis from 'react-lines-ellipsis'
 import electron from 'electron'
+import GifPlayer from './GifView'
+import { SubmissionPreview } from './'
+// import GifPlayer from 'react-gif-player'
 
 type SubmissionCardProps = {
     submission: object
@@ -28,7 +31,7 @@ const enhance = compose(
     withHandlers({
         viewSubmission: props => () => console.log(props.submissionStore) || props.submissionStore.view(props.submission),
         viewUrl: props => url => {
-            let authWindow = new electron.remote.BrowserWindow({
+            let previewWindow = new electron.remote.BrowserWindow({
                 // width: 800,
                 // height: 600,
                 show: false,
@@ -37,8 +40,8 @@ const enhance = compose(
                 'web-security': false,
                 parent: electron.remote.getCurrentWindow(),
             });
-            authWindow.loadURL(url);
-            authWindow.show();
+            previewWindow.loadURL(url);
+            previewWindow.show();
         },
     }),
     withHandlers({
@@ -109,16 +112,13 @@ const StatContainer = styled.div`
 const Image = styled(CardMedia) `
     height: 300px;
 `
+const GifPlayerContainer = styled.div`
+    height: 300px;
+`
 
 export default enhance((props: SubmissionCardProps) => {
     let { submission } = props
     console.log(submission.thumbnail, submission)
-    let preview
-    if (submission.preview && submission.preview.images) {
-        let resolutions: object[] = submission.preview.images[0].resolutions
-        let heightMoreThan200 = resolutions.filter(r => r.height > 200)
-        preview = heightMoreThan200[0] && heightMoreThan200[0].url
-    }
     return (
         <TopicCard
             key={submission.name}
@@ -127,12 +127,7 @@ export default enhance((props: SubmissionCardProps) => {
             elevation={1}
             onClick={props.viewSubmission}
         >
-            {preview && <Image
-                onClick={props.handlePreviewClick}
-                image={preview}
-                title="submission.title"
-            />
-            }
+            <SubmissionPreview submission={submission} />
             <Contents>
                 <Typography type="body1"
                     component="a"

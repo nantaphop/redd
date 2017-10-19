@@ -42,7 +42,6 @@ const LoadMore = styled.div`
 `
 
 export default enhance((props) => {
-    props.checkBottomReach(false)
     return (
         <Container container direction='row' justify='center'>
             {
