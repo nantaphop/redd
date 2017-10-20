@@ -36,10 +36,12 @@ export default enhance(class ImageViewer extends Component {
         }
         let images = []
         console.log(this.props.viewStore.previewSubmission.url)
-        if (this.props.viewStore.previewSubmission.preview.images.length > 0) {
+        //TODO: Some url is a jpg but have no preview
+        if (this.props.viewStore.previewSubmission.preview &&
+            this.props.viewStore.previewSubmission.preview.images.length > 0) {
             images = [this.props.viewStore.previewSubmission.url.replace('.gifv', '.gif')]
         } else {
-            return null
+            images = [this.props.viewStore.previewSubmission.url]
         }
         return (
             <Container elevation={4}>

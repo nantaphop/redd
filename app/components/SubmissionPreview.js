@@ -20,10 +20,17 @@ const enhance = compose(
     withPropsOnChange(['submission'], props => {
         let { submission } = props
         let preview
+
+
         if (submission.preview && submission.preview.images) {
             let resolutions: object[] = submission.preview.images[0].resolutions
             let heightMoreThan200 = resolutions.filter(r => r.height > 200)
             preview = heightMoreThan200[0] && heightMoreThan200[0].url
+        } else if (submission.url) {
+            let extension = submission.url.split('.').pop()
+            if (['jpg', 'png'].includes(extension)) {
+                preview = submission.url
+            }
         }
         let previewType
         let gifUrl
@@ -36,6 +43,7 @@ const enhance = compose(
         } else {
             previewType = 'image'
         }
+        console.log('Preview', submission.url, submission.preview, preview)
         return {
             preview,
             previewType,
@@ -48,7 +56,7 @@ const enhance = compose(
                 e.stopPropagation()
 
                 let extension = props.submission.url.split('.').pop()
-                if (['.jpg', 'png', 'gif', 'gifv'].includes(extension)) {
+                if (['jpg', 'png', 'gif', 'gifv'].includes(extension)) {
                     props.viewStore.setPreviewSubmission(props.submission)
                 } else {
                     electron.shell.openExternal(props.submission.url)
