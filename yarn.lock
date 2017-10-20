@@ -3431,6 +3431,10 @@ execall@^1.0.0:
   dependencies:
     clone-regexp "^1.0.0"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+
 exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
@@ -7140,6 +7144,13 @@ react-hot-loader@3.0.0-beta.6:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
+react-image-lightbox@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-image-lightbox/-/react-image-lightbox-4.3.0.tgz#961e99cc7eea6db24c2a75ab9dbd46f632c1ed8a"
+  dependencies:
+    prop-types "^15.5.8"
+    react-modal "^3.0.0"
+
 react-jss@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/react-jss/-/react-jss-7.2.0.tgz#30a5ed51d8388a33767c6d19790b222c1f33f48f"
@@ -7153,6 +7164,13 @@ react-jss@^7.2.0:
 react-lines-ellipsis@^0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/react-lines-ellipsis/-/react-lines-ellipsis-0.7.3.tgz#20dcbb40d2fab4b8a377f2a0f609b01d30b7bda6"
+
+react-modal@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.0.4.tgz#61f3c9a701b27d2015fe5ac0c419e3c977e4092a"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
 
 react-popper@^0.7.3:
   version "0.7.3"

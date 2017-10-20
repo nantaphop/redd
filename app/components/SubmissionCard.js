@@ -29,19 +29,9 @@ const enhance = compose(
 
     }),
     withHandlers({
-        viewSubmission: props => () => console.log(props.submissionStore) || props.submissionStore.view(props.submission),
-        viewUrl: props => url => {
-            let previewWindow = new electron.remote.BrowserWindow({
-                // width: 800,
-                // height: 600,
-                show: false,
-                title: 'Redd',
-                'node-integration': false,
-                'web-security': false,
-                parent: electron.remote.getCurrentWindow(),
-            });
-            previewWindow.loadURL(url);
-            previewWindow.show();
+        viewSubmission: props => (e) => {
+            console.log(e.target)
+            props.submissionStore.view(props.submission)
         },
     }),
     withHandlers({
@@ -125,10 +115,11 @@ export default enhance((props: SubmissionCardProps) => {
             raised
             active={submission.active}
             elevation={1}
-            onClick={props.viewSubmission}
         >
-            <SubmissionPreview submission={submission} />
-            <Contents>
+            <SubmissionPreview submission={submission} fullContent={fullContent} />
+            <Contents
+                onClick={props.viewSubmission}
+            >
                 <Typography type={fullContent ? 'title' : 'body1'}
                     component="a"
                     onClick={props.viewSubmission}
@@ -141,17 +132,17 @@ export default enhance((props: SubmissionCardProps) => {
                     <_LabelIcon /> {submission.subreddit.display_name}
                 </MetaRow>
                 {
-                    submission.selftext && 
-                    fullContent 
-                    ? <ContentBody html={submission.selftext_html}/>
-                    : <SelfText component="a" onClick={props.viewSubmission}>
-                        <LineEllipsis
-                            maxLine={3}
-                            ellipsis='...'
-                            trimRight
-                            basedOn='letters'
-                            text={submission.selftext} />
-                    </SelfText>
+                    submission.selftext &&
+                        fullContent
+                        ? <ContentBody html={submission.selftext_html} />
+                        : <SelfText component="a" onClick={props.viewSubmission}>
+                            <LineEllipsis
+                                maxLine={3}
+                                ellipsis='...'
+                                trimRight
+                                basedOn='letters'
+                                text={submission.selftext} />
+                        </SelfText>
                 }
                 <CardActions disableActionSpacing>
                     <Typography type="body1">{submission.score || '0'}</Typography>

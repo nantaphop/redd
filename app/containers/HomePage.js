@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import Grid from 'material-ui/Grid'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { SubmissionList, SubmissionDetail, Sidebar } from '../components'
+import { SubmissionList, SubmissionDetail, Sidebar, ImageViewer } from '../components'
 import getTheme from '../themes'
 
 const selectedTheme = createMuiTheme(getTheme());
@@ -20,6 +20,7 @@ export default function HomePage(props) {
         </Grid>
         <TopicListGrid item md={4} >
           <SubmissionList />
+          <ImageViewer />
         </TopicListGrid>
         <Grid item md={5}>
           <SubmissionDetail />

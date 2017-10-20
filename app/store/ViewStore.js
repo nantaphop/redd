@@ -15,6 +15,8 @@ class ViewStore {
     @observable currentUser: string = null
     @observable subscriptions: SubReddit[] = null
 
+    @observable previewSubmission: object = null
+
     @action setView = (viewName: string, viewData: object) => {
         this.currentView = viewName
         this.viewData = viewData || {}
@@ -61,6 +63,10 @@ class ViewStore {
         this.currentUser = await StorageService.currentUser()
         this.subscriptions = await StorageService.subscriptions()
         console.log('ViewStore done reloadFromStorage')
+    }
+
+    @action setPreviewSubmission = (submission) => {
+        this.previewSubmission = submission
     }
 }
 

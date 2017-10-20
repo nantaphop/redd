@@ -1,16 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import { compose, withPropsOnChange } from 'recompose'
+import { compose, withPropsOnChange, withStateHandlers } from 'recompose'
+import ImageViewer from './ImageViewer'
+import { inject } from 'mobx-react'
+import electron from 'electron'
 
 
 type SubmissionPreviewProps = {
     submission: object,
     preview?: string,
-    previewType?: string
+    previewType?: string,
+    viewMode?: string,
+    fullContent?: boolean,
 }
 
 const enhance = compose(
+    inject('viewStore'),
     withPropsOnChange(['submission'], props => {
         let { submission } = props
         let preview
@@ -35,15 +41,42 @@ const enhance = compose(
             previewType,
         }
     }),
+    withStateHandlers({
+
+    }, {
+            handlePreviewClick: (state, props) => (e) => {
+                e.stopPropagation()
+
+                let extension = props.submission.url.split('.').pop()
+                if (['.jpg', 'png', 'gif', 'gifv'].includes(extension)) {
+                    props.viewStore.setPreviewSubmission(props.submission)
+                } else {
+                    electron.shell.openExternal(props.submission.url)
+                }
+            },
+            viewUrl: props => url => {
+                let previewWindow = new electron.remote.BrowserWindow({
+                    // width: 800,
+                    // height: 600,
+                    show: false,
+                    title: 'Redd',
+                    'node-integration': false,
+                    'web-security': false,
+                    parent: electron.remote.getCurrentWindow(),
+                });
+                previewWindow.loadURL(url);
+                previewWindow.show();
+            },
+        })
 )
 
 const Image = styled(CardMedia) `
-height: 300px;
+    height: 300px;
 `
 
 export default enhance((props: SubmissionPreviewProps) => {
-    let { preview, previewType } = props
-    if (!preview){
+    let { preview, previewType, submission } = props
+    if (!preview) {
         return null
     }
     return (
@@ -51,7 +84,7 @@ export default enhance((props: SubmissionPreviewProps) => {
             <Image
                 onClick={props.handlePreviewClick}
                 image={preview}
-                title="submission.title"
+                title={submission.title}
             />
         </div>
     )
