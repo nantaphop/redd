@@ -8,6 +8,7 @@ import LabelIcon from 'material-ui-icons/Label'
 import ArrowUpIcon from 'material-ui-icons/ArrowUpward'
 import ArrowDownIcon from 'material-ui-icons/ArrowDownward'
 import ChatIcon from 'material-ui-icons/Forum'
+import { withTheme } from 'material-ui/styles';
 import styled, { css } from 'styled-components'
 import { compose, lifecycle, setDisplayName, withHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
@@ -43,8 +44,19 @@ const enhance = compose(
                 props.viewSubmission()
             }
         },
+        handleUpvote: props => (e) => {
+            e.stopPropagation()
+            props.submission.upvote()
+            props.submission.likes = true
+        },
+        handleDownvote: props => (e) => {
+            e.stopPropagation()
+            props.submission.downvote()
+            props.submission.likes = false
+        },
     }),
-    setDisplayName('SubmissionList'),
+    setDisplayName('SubmissionCard'),
+    withTheme(),
     observer,
 )
 
@@ -146,11 +158,11 @@ export default enhance((props: SubmissionCardProps) => {
                 }
                 <CardActions disableActionSpacing>
                     <Typography type="body1">{submission.score || '0'}</Typography>
-                    <IconButton>
-                        <ArrowUpIcon />
+                    <IconButton onClick={props.handleUpvote}>
+                        <ArrowUpIcon color={submission.likes === true && props.theme.palette.accent[500]} />
                     </IconButton>
-                    <IconButton>
-                        <ArrowDownIcon />
+                    <IconButton onClick={props.handleDownvote}>
+                        <ArrowDownIcon color={submission.likes === false && props.theme.palette.accent[500]}  />
                     </IconButton>
                     <Typography type="body1">{submission.num_comments || '0'}</Typography>
                     <IconButton>

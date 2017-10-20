@@ -30,7 +30,7 @@ class SubredditStore {
         this.loading = true
         this.submissions = await RedditService()[this.fetchFunction](this.subreddit, {
             limit: 10,
-        })
+        }).map(transformSubmission)
         this.loading = false
     }
 
@@ -46,11 +46,20 @@ class SubredditStore {
                 after: this.submissions[this.submissions.length - 1].name,
                 count: this.submissions.length,
                 limit: 10,
-            }))
+            }).map(transformSubmission))
             this.loadingMore = false
         }
     }
 
+}
+
+const transformSubmission = submission => {
+    // Make all field on submission as observable
+    let newSubmission = observable.object(submission)
+    // assign prototype to old prototype from Snoowrap.
+    // So, we can still use all function that Snoowrap provided
+    newSubmission.__proto__ = submission.__proto__
+    return newSubmission
 }
 
 const store = new SubredditStore()

@@ -23,7 +23,7 @@ const enhance = compose(
 
 
         if (submission.preview && submission.preview.images) {
-            let resolutions: object[] = submission.preview.images[0].resolutions
+            let resolutions = submission.preview.images[0].resolutions
             let heightMoreThan200 = resolutions.filter(r => r.height > 200)
             preview = heightMoreThan200[0] && heightMoreThan200[0].url
         } else if (submission.url) {
