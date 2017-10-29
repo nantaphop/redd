@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
 import InboxIcon from 'material-ui-icons/Inbox';
 import DraftsIcon from 'material-ui-icons/Drafts';
 import { withTheme } from 'material-ui/styles';
@@ -49,17 +50,20 @@ const StyledListItem = styled(ListItem) `
     ` : ''}
     
 `
-const Container = styled.div`
+const Container = styled(Paper) `
     padding-top: 64px;
     padding-bottom: 16px;
+    position: fixed;
+    left: 0;
+    width: 200px;
 `
 
 export default enhance((props: Props) => {
-
-    console.log(JSON.stringify(props.viewStore.subscriptions && JSON.stringify(props.viewStore.subscriptions[0], null, 2)))
+    if (!props.viewStore.showSidebar) {
+        return null
+    }
     return (
         <Container>
-            <Header />
             <StyledList>
                 <StyledListItem
                     button

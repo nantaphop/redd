@@ -13,15 +13,18 @@ const authUrl = getAuthUrl('sdfsdfwef8373')
 class ViewStore {
     @observable currentView: string = 'home'
     @observable viewData: object = {}
-
     @observable currentUser: string = null
     @observable subscriptions: object[] = null
-
     @observable previewSubmission: object = null
+    @observable showSidebar: boolean = true
 
     @action setView = (viewName: string, viewData: object) => {
         this.currentView = viewName
         this.viewData = viewData || {}
+    }
+
+    @action toggleSidebar = () => {
+        this.showSidebar = !this.showSidebar
     }
 
     @action performLogin = async () => {
@@ -66,7 +69,7 @@ class ViewStore {
         console.log('ViewStore start reloadFromStorage')
         this.currentUser = await StorageService.currentUser()
         this.subscriptions = await StorageService.subscriptions()
-        
+
         this.subscriptions = this.subscriptions.map(s => new Subreddit(s))
         this.currentUser = new RedditUser(this.currentUser)
         console.log('ViewStore done reloadFromStorage')

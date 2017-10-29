@@ -57,6 +57,9 @@ export default enhance((props) => (
             <Grid container spacing={16}>
                 <Grid item md={3}>
                     <Left>
+                        <IconButton color="contrast" onClick={props.viewStore.toggleSidebar}>
+                            <MenuIcon />
+                        </IconButton>
                         <Title type="title" color="inherit" >
                             Redd
                         </Title>
