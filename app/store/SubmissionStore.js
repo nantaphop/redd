@@ -1,6 +1,7 @@
 import { observable, action, autorun } from 'mobx'
 import RedditService from '../services/RedditService'
 import Reply from '../models/Reply'
+import SubredditStore from './SubredditStore'
 
 
 class SubmissionStore {
@@ -15,6 +16,13 @@ class SubmissionStore {
         this.replies = []
         this.submissionProxy = await RedditService().getSubmission(this.submission.id)
         this.fetchComment()
+        SubredditStore.hideDescription()
+    }
+
+    @action.bound closeSubmission = () => {
+        this.submission = null
+        this.replies = []
+        this.submissionProxy = null
     }
 
     @action fetchComment = async () => {

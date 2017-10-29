@@ -3,6 +3,7 @@ import Snoowrap, { } from 'snoowrap'
 import RedditService from '../services/RedditService'
 import Submission from '../models/Submission'
 import Subreddit from '../models/Subreddit'
+import SubmissionStore from './SubmissionStore'
 
 class SubredditStore {
     @observable submissions = []
@@ -30,6 +31,13 @@ class SubredditStore {
 
     @action.bound toggleDescription = () => {
         this.showDescription = !this.showDescription
+        if (this.showDescription) {
+            SubmissionStore.closeSubmission()
+        }
+    }
+
+    @action.bound hideDescription = () => {
+        this.showDescription = false
     }
 
     @action fetch = async () => {
