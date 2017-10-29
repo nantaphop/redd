@@ -37,7 +37,7 @@ const SubredditTitle = styled(Typography) `
 
 const Container = styled.div`
     overflow-y: auto;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 128px);
     padding: 8px 0px 16px 0px !important;
 `
 
