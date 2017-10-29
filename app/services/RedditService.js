@@ -37,7 +37,7 @@ let r: Snoowrap
             userAgent: USER_AGENT,
             accessToken: 'expired',
         })
-        SubredditStore.fetch()
+        SubredditStore.view('all')
     }
 })()
 

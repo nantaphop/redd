@@ -26,13 +26,13 @@ export default class Reply {
         this.api = reply
     }
 
-    @action handleUpvote = (e) => {
+    @action.bound handleUpvote = (e) => {
         e.stopPropagation()
         this.api.upvote()
         this.likes = true
     }
 
-    @action handleDownvote = (e) => {
+    @action.bound handleDownvote = (e) => {
         e.stopPropagation()
         this.api.downvote()
         this.likes = false

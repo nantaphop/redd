@@ -54,7 +54,7 @@ export default enhance((props) => {
         <SubmissionList>
             <Toolbar>
                 <SubredditTitle type="subheading" color="contrast" >
-                    {props.subredditStore.subreddit ? `/r/${props.subredditStore.subreddit}` : 'Front Page'}
+                    {props.subredditStore.subreddit ? `/r/${props.subredditStore.subreddit.display_name}` : 'Front Page'}
                 </SubredditTitle>
                 <SortRedditButton />
             </Toolbar>

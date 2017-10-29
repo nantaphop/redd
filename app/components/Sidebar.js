@@ -21,7 +21,7 @@ const enhance = compose(
     inject('viewStore'),
     inject('subredditStore'),
     withHandlers({
-        handleViewSubreddit: props => subredditName => () => props.subredditStore.view(subredditName),
+        handleViewSubreddit: props => subreddit => () => props.subredditStore.view(subreddit),
         isActive: props => subredditName => {
             console.log('props.subredditStore.subreddit === subredditName', props.subredditStore.subreddit === subredditName)
             return props.subredditStore.subreddit === subredditName
@@ -86,7 +86,7 @@ export default enhance((props: Props) => {
                         ? props.viewStore.subscriptions.map(subreddit => (
                             <StyledListItem
                                 button
-                                onClick={props.handleViewSubreddit(subreddit.display_name)}
+                                onClick={props.handleViewSubreddit(subreddit)}
                                 active={props.isActive(subreddit.display_name)}
                                 theme={props.theme}
                             >

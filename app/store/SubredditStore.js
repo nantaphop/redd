@@ -9,7 +9,7 @@ class SubredditStore {
     @observable loadingMore: boolean = false
     @observable count = 8
     @observable mode = 'Hot'
-    @observable subreddit = ''
+    @observable subreddit
     @observable test = 1
 
     @computed get fetchFunction() {
@@ -21,14 +21,14 @@ class SubredditStore {
         return modeMapping[this.mode]
     }
 
-    @action view = async (subredditName: string) => {
-        this.subreddit = subredditName
+    @action view = async (subreddit) => {
+        this.subreddit = typeof subreddit === 'string' ? RedditService().getSubreddit(subreddit) : subreddit
         this.fetch()
     }
 
     @action fetch = async () => {
         this.loading = true
-        this.submissions = await RedditService()[this.fetchFunction](this.subreddit, {
+        this.submissions = await RedditService()[this.fetchFunction](this.subreddit.display_name, {
             limit: 10,
         }).map(transformSubmission)
         this.loading = false
@@ -42,7 +42,7 @@ class SubredditStore {
     @action fetchMore = async () => {
         if (this.submissions.length > 0) {
             this.loadingMore = true
-            this.submissions = this.submissions.concat(await RedditService()[this.fetchFunction](this.subreddit, {
+            this.submissions = this.submissions.concat(await RedditService()[this.fetchFunction](this.subreddit.display_name, {
                 after: this.submissions[this.submissions.length - 1].name,
                 count: this.submissions.length,
                 limit: 10,
