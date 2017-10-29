@@ -46,7 +46,6 @@ const _SortIcon = styled(SortIcon)`
 export default enhance((props) => (
     <Container theme={props.theme}>
             <Button
-                color="contrast"
                 onClick={props.toggleSortMenu}
             >
                 <_SortIcon />

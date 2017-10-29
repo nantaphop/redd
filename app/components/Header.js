@@ -34,9 +34,6 @@ const StyleAppBar = styled(AppBar)`
 const Title = styled(Typography) `
     width: 240px;
 `
-const SubredditTitle = styled(Typography) `
-    margin-right: 16px !important;
-`
 const Left = styled.div`
     display: flex;
     align-items: center;
@@ -67,10 +64,7 @@ export default enhance((props) => (
                 </Grid>
                 <Grid item md={4}>
                     <Center>
-                        <SubredditTitle type="title" color="inherit" >
-                            {props.subredditStore.subreddit ? `/r/${props.subredditStore.subreddit}` : 'Front Page'}
-                        </SubredditTitle>
-                        <SortRedditButton />
+                        
                     </Center>
                 </Grid>
                 <Grid item md={5}>

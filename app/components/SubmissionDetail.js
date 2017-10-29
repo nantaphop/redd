@@ -19,7 +19,7 @@ const enhance = compose(
 
 const Container = styled.div`
     margin-left: 0px !important;
-    padding: 80px 16px 16px 0px !important;
+    padding: 80px 0px 16px 8px !important;
     overflow-y: auto;
     height: calc(100vh - 64px);
 

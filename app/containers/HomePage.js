@@ -19,7 +19,7 @@ const TopicListGrid = styled(Grid) `
   // padding-right: 0px !important;
 `
 const StyledGrid = styled(Grid)`
-  ${props => props.showSidebar ? 'padding-left: 216px' : 'padding-left: 16px'}
+  ${props => props.showSidebar ? 'padding-left: 208px' : 'padding-left: 0px'}
 `
 
 export default enhance(function HomePage(props) {
@@ -33,13 +33,13 @@ export default enhance(function HomePage(props) {
           showSidebar &&
           <Sidebar />
         }
-        <StyledGrid container spacing={16} justify="center" showSidebar={showSidebar}>
-          <TopicListGrid item md={5} >
+        <StyledGrid container spacing={0} justify="center" showSidebar={showSidebar}>
+          <TopicListGrid item md={4} >
             <SubmissionList />
             <ImageViewer />
           </TopicListGrid>
           {
-            props.submissionStore.submission && <Grid item md={7}>
+            props.submissionStore.submission && <Grid item md={8}>
               <SubmissionDetail />
             </Grid>
           }
