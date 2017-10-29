@@ -2,6 +2,7 @@ import React from 'react'
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { CircularProgress } from 'material-ui/Progress';
 import Grid from 'material-ui/Grid';
+import IconButton from 'material-ui/IconButton'
 import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import styled from 'styled-components'
@@ -10,6 +11,7 @@ import { compose, lifecycle, setDisplayName, withStateHandlers } from 'recompose
 import { inject, observer } from 'mobx-react'
 import SubmissionCard from './SubmissionCard'
 import Sensor from 'react-visibility-sensor'
+import DescriptionIcon from 'material-ui-icons/ChromeReaderMode'
 
 
 const enhance = compose(
@@ -48,15 +50,23 @@ const LoadingContainer = styled.div`
 const LoadMore = styled.div`
 
 `
+const ToolbarCenter = styled.div`
+    flex: 1;
+`
 
 export default enhance((props) => {
     return (
         <SubmissionList>
-            <Toolbar>
+            <Toolbar >
                 <SubredditTitle type="subheading" color="contrast" >
                     {props.subredditStore.subreddit ? `/r/${props.subredditStore.subreddit.display_name}` : 'Front Page'}
                 </SubredditTitle>
-                <SortRedditButton />
+                <ToolbarCenter>
+                    <SortRedditButton />
+                </ToolbarCenter>
+                <IconButton onClick={props.subredditStore.toggleDescription} color={props.subredditStore.showDescription ? 'accent' : undefined}>
+                    <DescriptionIcon />
+                </IconButton>
             </Toolbar>
             <Container container direction='row' justify='center'>
                 {

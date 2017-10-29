@@ -2,6 +2,7 @@ import { observable, action, autorun, extendObservable, computed } from 'mobx'
 import Snoowrap, { } from 'snoowrap'
 import RedditService from '../services/RedditService'
 import Submission from '../models/Submission'
+import Subreddit from '../models/Subreddit'
 
 class SubredditStore {
     @observable submissions = []
@@ -11,6 +12,7 @@ class SubredditStore {
     @observable mode = 'Hot'
     @observable subreddit
     @observable test = 1
+    @observable showDescription = false
 
     @computed get fetchFunction() {
         const modeMapping = {
@@ -22,8 +24,12 @@ class SubredditStore {
     }
 
     @action view = async (subreddit) => {
-        this.subreddit = typeof subreddit === 'string' ? RedditService().getSubreddit(subreddit) : subreddit
+        this.subreddit = typeof subreddit === 'string' ? new Subreddit(RedditService().getSubreddit(subreddit)) : subreddit
         this.fetch()
+    }
+
+    @action.bound toggleDescription = () => {
+        this.showDescription = !this.showDescription
     }
 
     @action fetch = async () => {

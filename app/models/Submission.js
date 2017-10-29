@@ -34,7 +34,7 @@ export default class Submission {
         this.score = submission.score
         this.num_comments = submission.num_comments
         this.author = new RedditUser(submission.author)
-        this.subreddit = new Subreddit(submission.subreddit)
+        this.subreddit = new Subreddit(submission.subreddit, true)
         this.api = submission
     }
 

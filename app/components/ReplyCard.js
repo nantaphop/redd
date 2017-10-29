@@ -31,7 +31,7 @@ const enhance = compose(
 
     }),
     setDisplayName('ReplyCard'),
-    withTheme(),    
+    withTheme(),
     observer,
 )
 
@@ -105,11 +105,11 @@ const renderReply = (props, reply) => (
                 <_DateIcon /> {moment(reply.created_utc * 1000).fromNow()}
                 <_PersonIcon /> {reply.author.name}
                 <_LabelIcon /> {reply.score}
-                <IconButton onClick={reply.handleUpvote}>
-                    <ArrowUpIcon color={reply.likes === true && props.theme.palette.accent[500]} />
+                <IconButton onClick={reply.handleUpvote} color={reply.likes === true ? 'accent' : undefined}>
+                    <ArrowUpIcon />
                 </IconButton>
-                <IconButton onClick={reply.handleDownvote}>
-                    <ArrowDownIcon color={reply.likes === false && props.theme.palette.accent[500]} />
+                <IconButton onClick={reply.handleDownvote} color={reply.likes === false ? 'accent' : undefined} >
+                    <ArrowDownIcon />
                 </IconButton>
                 {
                     reply.replies.length ?

@@ -4,7 +4,7 @@ import cyan from 'material-ui/colors/cyan';
 export default {
     palette: {
         primary: pink,
-        accent: cyan,
+        secondary: cyan,
     },
     type: 'light',
 }
