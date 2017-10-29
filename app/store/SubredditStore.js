@@ -1,7 +1,7 @@
 import { observable, action, autorun, extendObservable, computed } from 'mobx'
 import Snoowrap, { } from 'snoowrap'
 import RedditService from '../services/RedditService'
-
+import Submission from '../models/Submission'
 
 class SubredditStore {
     @observable submissions = []
@@ -53,14 +53,7 @@ class SubredditStore {
 
 }
 
-const transformSubmission = submission => {
-    // Make all field on submission as observable
-    let newSubmission = observable.object(submission)
-    // assign prototype to old prototype from Snoowrap.
-    // So, we can still use all function that Snoowrap provided
-    newSubmission.__proto__ = submission.__proto__
-    return newSubmission
-}
+const transformSubmission = submission => new Submission(submission)
 
 const store = new SubredditStore()
 autorun(() => console.log(store))

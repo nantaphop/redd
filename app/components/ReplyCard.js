@@ -29,7 +29,7 @@ const enhance = compose(
     lifecycle({
 
     }),
-    setDisplayName('ReplyList'),
+    setDisplayName('ReplyCard'),
     observer,
 )
 

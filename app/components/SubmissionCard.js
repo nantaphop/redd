@@ -158,10 +158,10 @@ export default enhance((props: SubmissionCardProps) => {
                 }
                 <CardActions disableActionSpacing>
                     <Typography type="body1">{submission.score || '0'}</Typography>
-                    <IconButton onClick={props.handleUpvote}>
+                    <IconButton onClick={props.submission.handleUpvote}>
                         <ArrowUpIcon color={submission.likes === true && props.theme.palette.accent[500]} />
                     </IconButton>
-                    <IconButton onClick={props.handleDownvote}>
+                    <IconButton onClick={props.submission.handleDownvote}>
                         <ArrowDownIcon color={submission.likes === false && props.theme.palette.accent[500]}  />
                     </IconButton>
                     <Typography type="body1">{submission.num_comments || '0'}</Typography>

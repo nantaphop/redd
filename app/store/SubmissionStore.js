@@ -1,5 +1,6 @@
 import { observable, action, autorun } from 'mobx'
 import RedditService from '../services/RedditService'
+import Reply from '../models/Reply'
 
 
 class SubmissionStore {
@@ -18,7 +19,7 @@ class SubmissionStore {
 
     @action fetchComment = async () => {
         this.loading = true
-        this.replies = await this.submissionProxy.comments
+        this.replies = (await this.submissionProxy.comments).map(r => new Reply(r))
         this.loading = false
     }
 

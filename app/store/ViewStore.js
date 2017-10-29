@@ -3,6 +3,8 @@ import electron from 'electron'
 import RedditService, { getAuthUrl, fromAuthCode } from '../services/RedditService'
 import StorageService from '../services/StorageService'
 import { SubredditStore } from './'
+import Subreddit from '../models/Subreddit'
+import RedditUser from '../models/RedditUser'
 const { TouchBarLabel, TouchBarButton, TouchBarSpacer, TouchBarSegmentedControl } = electron.remote.TouchBar
 
 
@@ -13,7 +15,7 @@ class ViewStore {
     @observable viewData: object = {}
 
     @observable currentUser: string = null
-    @observable subscriptions: SubReddit[] = null
+    @observable subscriptions: object[] = null
 
     @observable previewSubmission: object = null
 
@@ -41,6 +43,8 @@ class ViewStore {
                 })
                 await StorageService.currentUser(toJS(this.currentUser))
                 await StorageService.subscriptions(toJS(this.subscriptions))
+                this.subscriptions = this.subscriptions.map(s => new Subreddit(s))
+                this.currentUser = new RedditUser(this.currentUser)
                 authWindow.close()
             } else {
                 console.log('loginFail', newUrl)
@@ -62,6 +66,9 @@ class ViewStore {
         console.log('ViewStore start reloadFromStorage')
         this.currentUser = await StorageService.currentUser()
         this.subscriptions = await StorageService.subscriptions()
+        
+        this.subscriptions = this.subscriptions.map(s => new Subreddit(s))
+        this.currentUser = new RedditUser(this.currentUser)
         console.log('ViewStore done reloadFromStorage')
     }
 
