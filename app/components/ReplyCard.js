@@ -5,6 +5,7 @@ import IconButton from 'material-ui/IconButton'
 import DateIcon from 'material-ui-icons/Timer'
 import PersonIcon from 'material-ui-icons/Person'
 import LabelIcon from 'material-ui-icons/Label'
+import { withTheme } from 'material-ui/styles';
 import ArrowUpIcon from 'material-ui-icons/ArrowUpward'
 import ArrowDownIcon from 'material-ui-icons/ArrowDownward'
 import ChatIcon from 'material-ui-icons/Forum'
@@ -30,6 +31,7 @@ const enhance = compose(
 
     }),
     setDisplayName('ReplyCard'),
+    withTheme(),    
     observer,
 )
 
@@ -103,16 +105,22 @@ const renderReply = (props, reply) => (
                 <_DateIcon /> {moment(reply.created_utc * 1000).fromNow()}
                 <_PersonIcon /> {reply.author.name}
                 <_LabelIcon /> {reply.score}
+                <IconButton onClick={reply.handleUpvote}>
+                    <ArrowUpIcon color={reply.likes === true && props.theme.palette.accent[500]} />
+                </IconButton>
+                <IconButton onClick={reply.handleDownvote}>
+                    <ArrowDownIcon color={reply.likes === false && props.theme.palette.accent[500]} />
+                </IconButton>
                 {
                     reply.replies.length ?
-                    <IconButton onClick={props.submissionStore.handleToggleReply(reply.name)}>
-                        {
-                            !props.submissionStore.collapseReplies.has(reply.name)
-                                ? <ExpandLess />
-                                : <ExpandMore />
-                        }
-                    </IconButton>
-                    : null
+                        <IconButton onClick={props.submissionStore.handleToggleReply(reply.name)}>
+                            {
+                                !props.submissionStore.collapseReplies.has(reply.name)
+                                    ? <ExpandLess />
+                                    : <ExpandMore />
+                            }
+                        </IconButton>
+                        : null
                 }
             </MetaRow>
             {
