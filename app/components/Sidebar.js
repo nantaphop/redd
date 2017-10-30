@@ -12,6 +12,7 @@ import electron from 'electron'
 import { compose, withHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import type {Subreddit } from 'snoowrap'
+import {transition} from '../utils/TransitionUtils'
 
 
 const authUrl = getAuthUrl('sdfsdfwef8373')
@@ -23,7 +24,6 @@ const enhance = compose(
     withHandlers({
         handleViewSubreddit: props => subreddit => () => props.subredditStore.view(subreddit),
         isActive: props => subredditName => {
-            console.log('props.subredditStore.subreddit === subredditName', props.subredditStore.subreddit === subredditName)
             return props.subredditStore.subreddit === subredditName
         },
     }),
@@ -55,15 +55,14 @@ const Container = styled(Paper) `
     padding-bottom: 16px;
     position: fixed;
     left: 0;
-    width: 200px;
+    transition: ${transition(['width'])};
+    width: ${props => props.showSidebar ? '240px' : '0px'};
+    height: 100%;
 `
 
 export default enhance((props: Props) => {
-    if (!props.viewStore.showSidebar) {
-        return null
-    }
     return (
-        <Container>
+        <Container showSidebar={props.viewStore.showSidebar} theme={props.theme}>
             <StyledList>
                 <StyledListItem
                     button
