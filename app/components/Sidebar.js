@@ -60,7 +60,7 @@ const Container = styled(Paper) `
     height: 100%;
 `
 
-export default enhance((props: Props) => {
+export default enhance((props) => {
     return (
         <Container showSidebar={props.viewStore.showSidebar} theme={props.theme}>
             <StyledList>

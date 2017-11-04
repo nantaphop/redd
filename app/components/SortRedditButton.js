@@ -39,31 +39,33 @@ const Container = styled.div`
         color: ${props => props.theme.palette.getContrastText(props.theme.palette.action.active)} !important;
     }
 `
-const _SortIcon = styled(SortIcon)`
+const _SortIcon = styled(SortIcon) `
     margin-right: 8px;
 `
 
-export default enhance((props) => (
-    <Container theme={props.theme}>
+export default enhance((props) => {
+    return (
+        <Container theme={props.theme}>
             <Button
                 onClick={props.toggleSortMenu}
             >
                 <_SortIcon />
                 {props.subredditStore.mode}
             </Button>
-        <Menu
-            id="lock-menu"
-            anchorEl={props.showSortAnchor}
-            open={props.showSort}
-            onRequestClose={props.toggleSortMenu}
-        >
-            {
-                ['Hot', 'Top', 'New'].map(m => (
-                    <MenuItem onClick={() => props.selectSort(m)} selected={props.subredditStore.mode === m}>
-                        {m}
-                    </MenuItem>
-                ))
-            }
-        </Menu>
-    </Container>
-))
+            <Menu
+                id="lock-menu"
+                anchorEl={props.showSortAnchor}
+                open={props.showSort}
+                onRequestClose={props.toggleSortMenu}
+            >
+                {
+                    ['Hot', 'Top', 'New'].map(m => (
+                        <MenuItem onClick={() => props.selectSort(m)} selected={props.subredditStore.mode === m}>
+                            {m}
+                        </MenuItem>
+                    ))
+                }
+            </Menu>
+        </Container>
+    )
+})

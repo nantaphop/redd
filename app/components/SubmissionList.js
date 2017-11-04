@@ -6,13 +6,13 @@ import IconButton from 'material-ui/IconButton'
 import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import styled from 'styled-components'
-import { Toolbar, SortRedditButton } from './'
 import { compose, lifecycle, setDisplayName, withStateHandlers } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import SubmissionCard from './SubmissionCard'
 import Sensor from 'react-visibility-sensor'
 import DescriptionIcon from 'material-ui-icons/ChromeReaderMode'
-
+import { Toolbar } from './'
+import SortRedditButton from './SortRedditButton'
 
 const enhance = compose(
     inject('viewStore'),

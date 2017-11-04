@@ -18,9 +18,9 @@ export default {
         options: {
           cacheDirectory: true,
           plugins: [
+            'transform-decorators-legacy',
             'transform-runtime',
             'add-module-exports',
-            'transform-decorators-legacy',
           ],
           presets: ['react', 'stage-1'],
         },

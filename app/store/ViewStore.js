@@ -69,10 +69,13 @@ class ViewStore {
         console.log('ViewStore start reloadFromStorage')
         this.currentUser = await StorageService.currentUser()
         this.subscriptions = await StorageService.subscriptions()
-
-        this.subscriptions = this.subscriptions.map(s => new Subreddit(s))
-        this.currentUser = new RedditUser(this.currentUser)
-        console.log('ViewStore done reloadFromStorage')
+        if (this.subscriptions) {
+            this.subscriptions = this.subscriptions.map(s => new Subreddit(s))
+        }
+        if (this.currentUser) {
+            this.currentUser = new RedditUser(this.currentUser)
+        }
+        console.log('ViewStore done reloadFromStorage', this)
     }
 
     @action setPreviewSubmission = (submission) => {

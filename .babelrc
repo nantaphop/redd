@@ -1,26 +1,25 @@
 {
   "presets": [
     ["env", {
-      "targets": { "node": 7 },
+      "targets": {
+        "node": 7
+      },
       "useBuiltIns": true
     }],
     "stage-0",
     "react",
     "stage-1",
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack", "transform-decorators-legacy"],
+  "plugins": ["add-module-exports", "dynamic-import-webpack"],
   "env": {
     "production": {
       "presets": ["react-optimize"],
-      "plugins": [ "babel-plugin-dev-expression", "transform-decorators-legacy"]
+      "plugins": ["babel-plugin-dev-expression"]
     },
     "development": {
       "plugins": [
-        "transform-decorators-legacy",
         "transform-class-properties",
-        "transform-es2015-classes",
-
-        ["flow-runtime", {
+        "transform-es2015-classes", ["flow-runtime", {
           "assert": true,
           "annotate": true
         }]
