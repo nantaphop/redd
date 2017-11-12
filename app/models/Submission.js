@@ -16,6 +16,7 @@ export default class Submission {
     @observable selftext_html: string
     @observable score: number
     @observable num_comments: number
+    @observable preview: number
     @observable.ref author: object
     @observable.ref subreddit: object
     api: object
@@ -33,6 +34,7 @@ export default class Submission {
         this.selftext_html = submission.selftext_html
         this.score = submission.score
         this.num_comments = submission.num_comments
+        this.preview = submission.preview
         this.author = new RedditUser(submission.author)
         this.subreddit = new Subreddit(submission.subreddit, true)
         this.api = submission

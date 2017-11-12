@@ -15,6 +15,8 @@ type SubmissionPreviewProps = {
     fullContent?: boolean,
 }
 
+const THUMBNAIL_HEIGHT = 400
+
 const enhance = compose(
     inject('viewStore'),
     withPropsOnChange(['submission'], props => {
@@ -24,11 +26,14 @@ const enhance = compose(
         // Try to find submission preview
         if (submission.preview && submission.preview.images) {
             let resolutions = submission.preview.images[0].resolutions
-            let heightMoreThan200 = resolutions.filter(r => r.height > 200)
-            preview = heightMoreThan200[0] && heightMoreThan200[0].url
-        } else if (submission.thumbnail && (submission.thumbnail !== 'self')){
+            let heightMoreThan = resolutions.filter(r => r.height > THUMBNAIL_HEIGHT)
+            if (heightMoreThan.length === 0) {
+                heightMoreThan = [resolutions[resolutions.length - 1]]
+            }
+            preview = heightMoreThan[0] && heightMoreThan[0].url
+        } else if (submission.thumbnail && (submission.thumbnail !== 'self')) {
             preview = submission.thumbnail
-        }else if (submission.url) {
+        } else if (submission.url) {
             let extension = submission.url.split('.').pop()
             if (['jpg', 'png'].includes(extension)) {
                 preview = submission.url
