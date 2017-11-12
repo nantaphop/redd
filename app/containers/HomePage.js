@@ -26,9 +26,20 @@ console.log("selectedTheme", selectedTheme)
 const TopicListGrid = styled(Grid) `
   // padding-right: 0px !important;
 `
-const StyledGrid = styled(Grid) `
+
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
   transition: ${transition(['padding-left'])};
   ${props => (props.showSidebar ? 'padding-left: 248px' : 'padding-left: 0px')}
+`
+const Content = styled.div`
+  width: 960px;
+`
+const StyledGrid = styled(Grid) `
+  width: 960px;
+  transition: ${transition(['padding-left'])};
+  
 `
 const _Drawer = styled(Drawer) `
 
@@ -55,30 +66,31 @@ export default enhance(function HomePage(props) {
         >
           <Sidebar />
         </_Drawer>
-        <div>
-          <Header />
-          <StyledGrid
-            theme={props.theme}
-            container
-            spacing={0}
-            justify="center"
-            showSidebar={showSidebar}
-          >
-            <TopicListGrid item md={4} >
-              <SubmissionList />
-              <ImageViewer />
-            </TopicListGrid>
-            {
-              props.subredditStore.showDescription
-                ? <Grid item md={8}>
-                  <SubredditDescription />
-                </Grid>
-                : props.submissionStore.submission && <Grid item md={8}>
-                  <SubmissionDetail />
-                </Grid>
-            }
-          </StyledGrid>
-        </div>
+        <ContentContainer theme={props.theme} showSidebar={showSidebar}>
+          <Content>
+            <Header />
+            <StyledGrid
+              theme={props.theme} 
+              container
+              spacing={0}
+              justify="center"
+            >
+              <TopicListGrid item md={5} >
+                <SubmissionList />
+                <ImageViewer />
+              </TopicListGrid>
+              {
+                props.subredditStore.showDescription
+                  ? <Grid item md={7}>
+                    <SubredditDescription />
+                  </Grid>
+                  : props.submissionStore.submission && <Grid item md={7}>
+                    <SubmissionDetail />
+                  </Grid>
+              }
+            </StyledGrid>
+          </Content>
+        </ContentContainer>
       </div>
     </MuiThemeProvider>
   )
